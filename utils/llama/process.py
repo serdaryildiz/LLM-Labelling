@@ -1,5 +1,7 @@
 from multiprocessing import Process, Queue, Event
 
+import torch.cuda
+
 from utils.llama.model import LlamaModel
 
 
@@ -23,6 +25,7 @@ class LlamaProcess(Process):
     def run(self):
 
         while not self.stop_event.is_set():
+            torch.cuda.empty_cache()
 
             # get input queue
             batch_image = []
