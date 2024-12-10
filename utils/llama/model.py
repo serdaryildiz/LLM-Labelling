@@ -30,12 +30,12 @@ class LlamaModel:
             return_tensors="pt"
         ).to(self.model.device)
 
-        description = self.model.generate(**inputs,
+        descriptions = self.model.generate(**inputs,
                                           max_new_tokens=200,
                                           do_sample=False,
                                           num_beams=1,
                                           num_return_sequences=1,
-                                          top_p=None
-                                          )
-        description = self.processor.decode(description[0])
-        return description
+                                          top_p=None)
+
+        descriptions = [self.processor.decode(d) for d in descriptions]
+        return descriptions
