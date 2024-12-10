@@ -14,8 +14,10 @@ class LlamaModel:
         self.model = MllamaForConditionalGeneration.from_pretrained(
             model_path,
             torch_dtype=torch.bfloat16,
-            device_map="auto",
+            device_map="cuda:0",
         )
+        self.model.tie_weights()
+
         self.processor = AutoProcessor.from_pretrained(self.model_path)
         self.input_text = self.processor.apply_chat_template(self.instruct, add_generation_prompt=True)
 
