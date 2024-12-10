@@ -8,6 +8,7 @@ import multiprocessing
 import os.path
 from threading import Thread
 
+import torch
 import lmdb
 import tqdm
 from PIL import Image
@@ -27,6 +28,7 @@ def get_processed_id_list(output_path):
     return id_list
 
 
+@torch.no_grad()
 def main(opt):
 
     instruct = [
