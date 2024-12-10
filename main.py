@@ -73,7 +73,8 @@ def main(opt):
         model=model,
         input_queue=input_queue,
         output_queue=output_queue,
-        stop_event=stop_event
+        stop_event=stop_event,
+        batch_size=opt.batch_size
     ) for _ in range(opt.num_process)]
 
     # start process
@@ -155,8 +156,10 @@ if __name__ == '__main__':
     parser.add_argument("--output-path", type=str, default="./output", help="output dir path")
     parser.add_argument("--dataset-lmdb", type=str, default="./data/LUPws/lmdb", help="output dir path")
     parser.add_argument("--part-size", type=int, default=1000, help="label part size")
-    parser.add_argument("--max-queue-size", type=int, default=10, help="label part size")
-    parser.add_argument("--num-process", type=int, default=1, help="label part size")
+    parser.add_argument("--max-queue-size", type=int, default=1, help="label part size")
+    parser.add_argument("--num-process", type=int, default=1, help="number of llama process")
+    parser.add_argument("--batch-size", type=int, default=1, help="llama model batch size")
+
     parser.add_argument("--show", action="store_true", help="show image")
 
     args = parser.parse_args()

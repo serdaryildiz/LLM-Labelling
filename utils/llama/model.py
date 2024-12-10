@@ -21,14 +21,21 @@ class LlamaModel:
 
         return
 
-    def __call__(self, image) -> str:
+    def __call__(self, batch) -> str:
+
         inputs = self.processor(
-            image,
-            self.input_text,
+            batch,
+            [self.input_text] * len(batch),
             add_special_tokens=False,
             return_tensors="pt"
         ).to(self.model.device)
 
-        description = self.model.generate(**inputs, max_new_tokens=200)
+        description = self.model.generate(**inputs,
+                                          max_new_tokens=200,
+                                          do_sample=False,
+                                          num_beams=1,
+                                          num_return_sequences=1,
+                                          top_p=None
+                                          )
         description = self.processor.decode(description[0])
         return description
