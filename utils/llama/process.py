@@ -44,7 +44,8 @@ class LlamaProcess(Process):
                     break
 
             # inference
-            descriptions = self.model(batch_image)
+            with torch.no_grad():
+                descriptions = self.model(batch_image)
 
             # add output queue
             for description, sample_id in zip(descriptions, batch_sample_id):
